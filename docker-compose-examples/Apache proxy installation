@@ -1,0 +1,17 @@
+sudo apt-get install apache2
+sudo systemctl enable apache2.service
+curl localhost
+sudo nano /etc/apache2/sites-available/Apache2Proxy.conf
+sudo a2enmod proxy
+sudo a2enmod proxy_http
+sudo a2ensite Apache2Proxy.conf 
+sudo systemctl restart apache2.service
+
+
+/home/ubuntu/dockercompose/certs/FindAndWork.pem
+
+ServerName cms.findandwork.com
+        ServerAlias cms.findandwork.com
+        ServerAdmin ojimenez@softcorpcr.com
+         ProxyPass / http://127.0.0.1:1337/
+        ProxyPassReverse / http://127.0.0.1:1337/

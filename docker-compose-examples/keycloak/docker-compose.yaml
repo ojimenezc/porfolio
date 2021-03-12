@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  keycloak:
+    image: jboss/keycloak:latest
+    restart: unless-stopped
+    environment:
+        DB_ADDR: mysql
+        DB_PORT: 3306
+        DB_DATABASE: keycloak
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: Wo5i8RkzMG0uwC
+        DB_VENDOR: mysql
+        DB_USER: keycloak
+        DB_PASSWORD: 8RkzMG0uw
+    ports:
+      - '80:8080'
+  mysql:
+    image: mysql
+    restart: unless-stopped
+    environment:
+        MYSQL_ROOT_PASSWORD: Wo5i8RkzMG0uwC
+        MYSQL_USER: keycloak
+        MYSQL_PASSWORD: 8RkzMG0uw
+        MYSQL_DATABASE: keycloak
+    ports:
+      - '3306:3306'
