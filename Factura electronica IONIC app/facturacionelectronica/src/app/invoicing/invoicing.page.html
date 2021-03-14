@@ -1,0 +1,133 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            {{'INVOICING_MENU_TITLE'|translate}}
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <p text-center>
+        <ion-chip *ngIf="exchangeRate!==undefined" color="secondary">
+            <ion-label>{{'EXCHANGE_RATE_TITLE'|translate}} ₡ {{exchangeRate}}</ion-label>
+        </ion-chip>
+    </p>
+    <form [formGroup]="" (ngSubmit)="generate()">
+        <ion-item-group>
+            <ion-item *ngIf="this.selectedPos!==undefined">
+                <ion-label position="stacked">{{'CLIENTS_MENU_ITEM'|translate}}</ion-label>
+                <ion-select (ionChange)="changeSelectedClient($event)"
+                            [value]="this.selectedClient!==undefined?this.selectedClient.id:1"
+                            [selectedText]="this.selectedClient!==undefined?this.selectedClient.clientName:''">
+                    <ion-select-option [value]="c.id" *ngFor="let c of clients">
+                        {{c.clientName}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'DOCUMENT_TYPE'|translate}}</ion-label>
+                <ion-select (ionChange)="changeDocumentType($event)"
+                            [value]="this.selectedDocumenType!==undefined?this.selectedDocumenType.code:1"
+                            [selectedText]="this.selectedDocumenType!==undefined?this.selectedDocumenType.name:''">
+                    <ion-select-option [value]="t.code" *ngFor="let t of documentTypes">
+                        {{t.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'INVOICE_CURRENCY'|translate}}</ion-label>
+                <ion-select *ngIf="selectedCurrency!==undefined" (ionChange)="changeCurrency($event)"
+                            [value]="this.selectedCurrency!==undefined?this.selectedCurrency.id:1"
+                            [selectedText]="this.selectedCurrency!==undefined?this.selectedCurrency.code:''">
+                    <ion-select-option [value]="t.id" *ngFor="let t of currencies">
+                        {{t.code}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'COMPANY_SELECT'|translate}}</ion-label>
+                <ion-select
+                        (ionChange)="changeCompany($event)"
+                        [value]="selectedCompany!=undefined?selectedCompany.id:1"
+                        [selectedText]="this.selectedCompany!=undefined? this.selectedCompany.companyName:''">
+                    <ion-select-option [value]="c.id" *ngFor="let c of companies">
+                        {{c.companyName}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label *ngIf="this.selectedOffice!==undefined"
+                           position="stacked">{{'OFFICES_SELECT'|translate}}</ion-label>
+                <ion-select *ngIf="this.selectedOffice!==undefined" (ionChange)="changeOffice($event)"
+                            [value]="this.selectedOffice.office.id"
+                            [selectedText]="this.selectedOffice.office.name">
+                    <ion-select-option [value]="c.office.id" *ngFor="let c of offices">
+                        {{c.office.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item *ngIf="this.selectedPos!==undefined">
+                <ion-label position="stacked">{{'POS_SELECT'|translate}}</ion-label>
+                <ion-select (ionChange)="changeSelectedPos($event)"
+                            [value]="this.selectedPos.id"
+                            [selectedText]="this.selectedPos.name">
+                    <ion-select-option [value]="c.id" *ngFor="let c of selectedOffice.pointsOfSale">
+                        {{c.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">{{'SELL_CONDITION'|translate}}</ion-label>
+                <ion-select (ionChange)="changeSellCondition($event)"
+                            [value]="this.selectedSellCondition!==undefined?this.selectedSellCondition.id:1"
+                            [selectedText]="this.selectedSellCondition!==undefined?this.selectedSellCondition.name:''">
+                    <ion-select-option [value]="c.id" *ngFor="let c of sellConditions">
+                        {{c.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item *ngIf="this.selectedSellCondition!==undefined && this.selectedSellCondition.id==='02'">
+                <ion-label position="stacked">{{'INVOICE_DUE_DAYS'|translate}}</ion-label>
+                <ion-input [(ngModel)]="dueDays"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'PAYMENT_METHOD'|translate}}</ion-label>
+                <ion-select (ionChange)="changePaymentMethod($event)"
+                            [value]="this.selectedPaymentMethod!==undefined?this.selectedPaymentMethod.code:1"
+                            [selectedText]="this.selectedPaymentMethod!==undefined?this.selectedPaymentMethod.name:''">
+                    <ion-select-option [value]="p.code" *ngFor="let p of paymentMethods">
+                        {{p.name}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item-divider>
+                <ion-label>{{'INVOICE_DETAILS'|translate}}</ion-label>
+            </ion-item-divider>
+            <ion-button fill="outline" (click)="addProduct()" expand="block">
+                {{'BTN_ADD_PRODUCT'|translate}}
+            </ion-button>
+            <ion-list>
+                <ion-item *ngFor="let detail of this.invoiceDetails">
+                    <ion-text>{{detail.product.productName}}</ion-text>
+                    <ion-badge slot="end" color="success">{{detail.quantity}}</ion-badge>
+
+                    <ion-button slot="end" (click)="editItem(detail)" color="primary">
+                        <ion-icon name="create"></ion-icon>
+                    </ion-button>
+                    <ion-button slot="end" (click)="removeItem(detail)" color="danger">
+                        <ion-icon name="trash"></ion-icon>
+                    </ion-button>
+
+                </ion-item>
+            </ion-list>
+        </ion-item-group>
+        <ion-button fill="outline" disabled="{{this.invoiceDetails.length===0}}" (click)="createInvoice()"
+                    color="success" expand="block">
+            {{'BTN_CREATE_INVOICE'|translate}}
+        </ion-button>
+    </form>
+</ion-content>

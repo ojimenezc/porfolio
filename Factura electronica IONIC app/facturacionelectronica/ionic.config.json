@@ -1,0 +1,7 @@
+{
+  "name": "facturacionelectronica",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

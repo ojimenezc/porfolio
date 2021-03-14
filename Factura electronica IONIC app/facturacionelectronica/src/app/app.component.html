@@ -1,0 +1,76 @@
+<!--
+  ~ Copyright (c) 2019.  SOFTCORP-CR S.A. All Rights Reserved. Any partial or total reproduction of this file without authorization from the owner is prohibited.
+  -->
+
+<ion-app>
+    <ion-split-pane contentId="main-content">
+        <ion-menu contentId="main-content" type="overlay">
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title>{{'MAIN_MENU_TITLE'|translate}}</ion-title>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content color="secondary">
+
+                <ion-menu-toggle autoHide="false">
+                    <ion-item color="secondary" [routerDirection]="'root'" routerLink="/home">
+                        <ion-icon slot="start" name="home"></ion-icon>
+                        <ion-label>
+                            {{'HOME_MENU_ITEM'|translate}}
+                        </ion-label>
+                    </ion-item>
+
+                </ion-menu-toggle>
+                <ion-list id="menu-list" no-padding>
+                    <div *ngFor="let p of getGroupItems()">
+                        <ion-item (click)="toggleSubitems(p)" color="secondary">
+                            <ion-icon slot="start" name="list"></ion-icon>
+                            {{p.title|translate}}
+                        </ion-item>
+                        <div class="subitems" id="subitems_{{p.title}}">
+
+                            <ion-menu-toggle autoHide="false" *ngFor="let subitem of p.subitems">
+                                <ion-item color="primary"
+                                          [routerDirection]="'root'" [routerLink]="[subitem.url]">
+                                    <ion-icon slot="start" [name]="subitem.icon"></ion-icon>
+                                    {{subitem.title|translate}}
+                                </ion-item>
+                            </ion-menu-toggle>
+                        </div>
+                    </div>
+
+                    <ion-menu-toggle autoHide="false" *ngFor="let p of getSingleItems()">
+                        <ion-item color="secondary"
+                                  [routerDirection]="'root'" [routerLink]="[p.url]">
+                            <ion-icon slot="start" [name]="p.icon"></ion-icon>
+                            <ion-label>
+                                {{p.title|translate}}
+                            </ion-label>
+                        </ion-item>
+                    </ion-menu-toggle>
+
+                    <ion-menu-toggle autoHide="false">
+                        <ion-item color="transparent" (click)="logout()">
+                            <ion-icon slot="start" name="log-out"></ion-icon>
+                            <ion-label>
+                                {{'LOGOUT'|translate}}
+                            </ion-label>
+                        </ion-item>
+
+                    </ion-menu-toggle>
+                </ion-list>
+            </ion-content>
+            <ion-footer class="bar-stable">
+                <ion-item>
+                    <ion-label>{{'LANGUAGE_LABEL'|translate}}</ion-label>
+                    <ion-select [(ngModel)]="selectedLanguage" (ionChange)="changeLanguage()">
+                        <ion-select-option value="en">{{'ENGLISH'|translate}}</ion-select-option>
+                        <ion-select-option value="es">{{'SPANISH'|translate}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-footer>
+        </ion-menu>
+        <ion-router-outlet id="main-content">
+        </ion-router-outlet>
+    </ion-split-pane>
+</ion-app>

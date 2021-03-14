@@ -1,0 +1,69 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{'EDIT_PROD'|translate}}</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="{{'BACK_BUTTON'|translate}}"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="newProductForm!==undefined">
+    <form [formGroup]="this.newProductForm" (ngSubmit)="save()">
+        <div *ngIf="this.newProductForm.value!==undefined">
+            <ion-item>
+                <ion-label position="stacked">
+                    {{'PROD_NAME'|translate}}
+                </ion-label>
+                <ion-input formControlName="productName"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">
+                    {{'PROD_PRICE'|translate}}
+                </ion-label>
+                <ion-input type="number" formControlName="productPrice"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'PROD_CURRENCY'|translate}}</ion-label>
+                <ion-select formControlName="prodCurrency" selectedText="{{this.selectedCurrency.name}}"
+                            value="{{this.selectedCurrency.code}}"
+                            (ionChange)="changeCurrency($event)">
+                    <ion-select-option [value]="t.code" *ngFor="let t of currencies">{{t.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'TAX_TYPE'|translate}}</ion-label>
+                <ion-select formControlName="taxType" selectedText="{{this.selectedTax.name}}"
+                            value="{{this.selectedTax.code}}"
+                            (ionChange)="changeTax($event)">
+                    <ion-select-option [value]="t.code" *ngFor="let t of taxesList">{{t.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'RATE_TYPE'|translate}}</ion-label>
+                <ion-select formControlName="rateType" selectedText="{{this.selectedRateType.name}}"
+                            value="{{this.selectedRateType.code}}"
+                            (ionChange)="changeRateType($event)">
+                    <ion-select-option [value]="rate.code"
+                                       *ngFor="let rate of rateTypes">{{rate.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label position="stacked">{{'UNIT_MEASURE'|translate}}</ion-label>
+                <ion-select formControlName="unitMeasure" selectedText="{{this.selectedUnit.name}}"
+                            value="{{this.selectedUnit.code}}"
+                            (ionChange)="changeUnitMeasure($event)">
+                    <ion-select-option [value]="unit.code"
+                                       *ngFor="let unit of unitMeasure">{{unit.name}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-input hidden formControlName="id"></ion-input>
+            <ion-input hidden formControlName="customerId"></ion-input>
+            <ion-input hidden formControlName="productCode"></ion-input>
+            <div class="ion-padding">
+                <ion-button [disabled]="!newProductForm.valid" fill="outline" type="submit" expand="block">
+                    {{'BTN_SAVE_PRODUCT'|translate}}
+                </ion-button>
+            </div>
+        </div>
+    </form>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{'ADD_PRODUCT_MODAL'|translate}}</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item-group>
+        <ion-item *ngIf="this.products!==undefined">
+            <ion-label position="stacked">{{'PRODUCTS'|translate}}</ion-label>
+            <ion-select (ionChange)="changeSelectedProduct($event)"
+                        [value]="this.selectedProduct!==undefined?this.selectedProduct.id:1"
+                        [selectedText]="this.selectedProduct!==undefined?this.selectedProduct.productName:''">
+                <ion-select-option [value]="c.id" *ngFor="let c of products">
+                    {{c.productName}}
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label position="stacked">{{'PRODUCT_QUANTITY'|translate}}</ion-label>
+            <ion-input [(ngModel)]="quantity" type="number"></ion-input>
+        </ion-item>
+    </ion-item-group>
+    <ion-button fill="outline" expand="block" (click)="closeModal()">{{'CONFIRM_ADD_PRODUCT'|translate}}</ion-button>
+</ion-content>

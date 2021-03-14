@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{'ECONOMIC_ACTIVITIES'|translate}}</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+
+    <ion-item>
+        <ion-label position="stacked">{{'COMPANY_SELECT'|translate}}</ion-label>
+        <ion-select
+                (ionChange)="changeCompany($event)"
+                [value]="selectedCompany!=undefined?selectedCompany.id:1"
+                [selectedText]="this.selectedCompany!=undefined? this.selectedCompany.companyName:''">
+            <ion-select-option [value]="c.id" *ngFor="let c of companies">
+                {{c.companyName}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+
+    <ion-searchbar [(ngModel)]="filterCriteria" (ionChange)="filter()"></ion-searchbar>
+
+    <div padding>
+        <ion-list *ngIf="activities!==undefined && activities.length>0">
+            <ion-item *ngFor="let activity of activities">
+                <ion-toggle checked="{{activity.checked}}" (ionChange)="toggleForCompany($event)"
+                            value="{{activity.code}}"
+                            color="primary"></ion-toggle>
+                <p class="activity-name">{{activity.name | titlecase}}</p>
+            </ion-item>
+        </ion-list>
+    </div>
+    <ion-fab vertical="bottom" (click)="scrollToTop()" horizontal="end" slot="fixed">
+        <ion-fab-button>
+            <ion-icon name="arrow-up"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

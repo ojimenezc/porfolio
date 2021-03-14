@@ -1,0 +1,62 @@
+<!--
+  ~ Copyright (c) 2019.  SOFTCORP-CR S.A. All Rights Reserved. Any partial or total reproduction of this file without authorization from the owner is prohibited.
+  -->
+
+
+<ion-content text-center>
+    <ion-progress-bar *ngIf="loading==true" type="indeterminate"></ion-progress-bar>
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+        <ion-grid>
+            <ion-row justify-content-center>
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                    <div *ngIf="this.loggedIn!==undefined && this.loggedIn==false">
+                        <ion-label color="danger">
+                            {{'LOGIN_ERROR'|translate}}
+                        </ion-label>
+                    </div>
+                    <div text-center>
+                        <ion-icon color="primary" name="lock"></ion-icon>
+                    </div>
+                    <div class="ion-padding">
+                        <ion-item>
+                            <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
+                            <div class="validation-errors">
+                                <div style="color: red; padding-top: 0.2rem"
+                                     *ngIf="loginForm.hasError('required', 'userName')">
+                                </div>
+                            </div>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-input type="password" formControlName="pwd" placeholder="Password"></ion-input>
+                        </ion-item>
+                    </div>
+
+                    <div class="ion-padding">
+                        <ion-button [disabled]="!loginForm.valid || this.loading==true"
+                                    fill="outline"
+                                    type="submit"
+                                    expand="block">
+                            {{'LOGIN_BTN'|translate}}
+                        </ion-button>
+                    </div>
+                    <div class="ion-padding ion-text-center">
+                        <ion-button (click)="goToRegister()"
+                                    fill="outline"
+                                    color="secondary"
+                                    expand="block">
+                            {{'REGISTER_BTN'|translate}}
+                        </ion-button>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+
+</ion-content>
+<ion-footer text-center>
+    <ion-label id="copyright">{{'COPYRIGHT'|translate}}</ion-label>
+    <div *ngIf="this.version!==undefined" text-center padding>
+        {{'VERSION'|translate}} {{this.version}}
+    </div>
+</ion-footer>

@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{'PRODUCTS'|translate}}</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <div *ngIf="products===undefined || products.length==0">
+        <div padding text-center>
+            <ion-text color="danger">
+                {{'NO_PRODUCTS'|translate}}
+            </ion-text>
+        </div>
+        <ion-fab vertical="center" horizontal="center" slot="fixed">
+            <ion-fab-button (click)="goToCreateProd()">
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+    <div *ngIf="products!==undefined && products.length>0">
+
+        <ion-card *ngFor="let p of products">
+            <ion-card-header>
+                <ion-card-title>{{p.productCode}} - {{p.productName}}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-item>
+                    <ion-label position="stacked">{{'PROD_PRICE'|translate}}</ion-label>
+                    <ion-text>{{p.prodCurrency}} {{p.productPrice}}</ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">{{'UNIT_MEASURE'|translate}}</ion-label>
+                    <ion-text>{{p.unitMeasure}}</ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">{{'TAX_TYPE'|translate}}</ion-label>
+                    <ion-text>{{p.taxType}}</ion-text>
+                </ion-item>
+                <ion-item>
+                    <ion-label position="stacked">{{'RATE_TYPE'|translate}}</ion-label>
+                    <ion-text>{{p.rateType}}</ion-text>
+                </ion-item>
+            </ion-card-content>
+            <ion-item>
+                <ion-button color="primary" size="small" type="button" (click)="edit(p)" fill="outline">
+                    {{'BTN_EDIT_CLIENT'|translate}}
+                </ion-button>
+            </ion-item>
+        </ion-card>
+
+        <ion-fab vertical="bottom" horizontal="end">
+            <ion-fab-button (click)="goToCreateProd()">
+                <ion-icon name="add"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+
+</ion-content>

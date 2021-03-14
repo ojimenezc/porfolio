@@ -1,0 +1,13 @@
+/*!
+ * Copyright (c) 2019.  SOFTCORP-CR S.A. All Rights Reserved. Any partial or total reproduction of this file without authorization from the owner is prohibited.
+ */
+
+#menu-list {
+  background-color: transparent !important;
+}
+
+.subitems{
+  -webkit-transition: height 0.8s; /* For Safari 3.1 to 6.0 */
+  transition: height 0.8s;
+  height: 0px;
+}

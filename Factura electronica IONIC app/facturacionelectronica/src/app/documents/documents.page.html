@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>{{'DOCUMENTS_PAGE_TITLE'|translate}}</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-item>
+        <ion-label position="stacked">{{'COMPANY_SELECT'|translate}}</ion-label>
+        <ion-select
+                (ionChange)="changeCompany($event)"
+                [value]="selectedCompany!=undefined?selectedCompany.id:1"
+                [selectedText]="this.selectedCompany!=undefined? this.selectedCompany.companyName:''">
+            <ion-select-option [value]="c.id" *ngFor="let c of companies">
+                {{c.companyName}}
+            </ion-select-option>
+        </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-searchbar (ionChange)="filterDocuments()" [(ngModel)]="filterCriteria"
+                       placeholder="{{'SEARCH_DOCS_BY_KEY'|translate}}"></ion-searchbar>
+    </ion-item>
+    <div *ngIf="this.filteredDocuments!==undefined && this.filteredDocuments.length>0">
+        <ion-card *ngFor="let doc of filteredDocuments">
+            <ion-card-header color="success" *ngIf="doc.statusIndicator==='aceptado'">
+                <ion-chip class="document-status-indicator" *ngIf="doc.statusIndicator==='aceptado'">
+                    <ion-label>
+                        <strong>{{doc.statusIndicator}}</strong>
+                    </ion-label>
+                </ion-chip>
+            </ion-card-header>
+            <ion-card-header color="danger" *ngIf="doc.statusIndicator==='rechazado'">
+                <ion-chip class="document-status-indicator" *ngIf="doc.statusIndicator==='rechazado'">
+                    <ion-label>
+                        <strong>{{doc.statusIndicator}}</strong>
+                    </ion-label>
+                </ion-chip>
+            </ion-card-header>
+
+            <ion-card-header color="warning" *ngIf="doc.statusIndicator===null || doc.statusIndicator===''">
+                <ion-chip class="document-status-indicator" >
+                    <ion-label>
+                        <strong>{{'WAITING_STATUS'|translate}}</strong>
+                    </ion-label>
+                </ion-chip>
+            </ion-card-header>
+
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label position="stacked">
+                                <strong>{{'DOCUMENT_KEY'|translate}}</strong>
+                            </ion-label>
+                            <ion-text>
+                                {{doc.documentKey}}
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label position="stacked">
+                                <strong> {{'CREATION_DATE'|translate}}</strong>
+                            </ion-label>
+                            <ion-text>
+                                {{doc.generationDate|date}}
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <ion-label position="stacked">
+                                <strong> {{'DOCUMENT_TOTAL'|translate}}</strong>
+                            </ion-label>
+                            <ion-text>
+                                {{getTotal(doc)}}
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

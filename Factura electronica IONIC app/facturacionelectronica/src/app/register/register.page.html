@@ -1,0 +1,93 @@
+<!--
+  ~ Copyright (c) 2019.  SOFTCORP-CR S.A. All Rights Reserved. Any partial or total reproduction of this file without authorization from the owner is prohibited.
+  -->
+
+<ion-header>
+
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button text="" icon="arrow-round-back"></ion-back-button>
+        </ion-buttons>
+        <ion-title>register</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="registerForm" (ngSubmit)="register(registerForm.value)">
+        <ion-grid>
+            <ion-row justify-content-center>
+                <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                    <div text-center>
+                        <h4>Register Form</h4>
+                    </div>
+                    <div class="ion-padding">
+                        <ion-item>
+                            <ion-input type="text" formControlName="representativeName"
+                                       placeholder="Full Name"></ion-input>
+
+                            <div *ngIf="registerForm.controls.representativeName.valid && !registerForm.controls.representativeName.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input type="number" formControlName="representativePhone"
+                                       placeholder="Contact Phone"></ion-input>
+
+                            <div *ngIf="registerForm.controls.representativePhone.valid && !registerForm.controls.representativePhone.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input type="email" formControlName="representativeEmail"
+                                       placeholder="Contact Email"></ion-input>
+
+                            <div *ngIf="registerForm.controls.representativeEmail.valid && !registerForm.controls.representativeEmail.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input type="text" formControlName="username" placeholder="Username"></ion-input>
+                            <div *ngIf="registerForm.controls.username.valid && !registerForm.controls.username.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-input type="password" formControlName="password" placeholder="Password"></ion-input>
+                            <div *ngIf="registerForm.controls.password.invalid && !registerForm.controls.password.pristine">
+                                <ion-icon name="close-circle-outline" size="" color="danger"></ion-icon>
+                            </div>
+                            <div *ngIf="registerForm.controls.password.valid && !registerForm.controls.password.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+
+                        </ion-item>
+                        <ion-item>
+                            <ion-input type="password" formControlName="passwordConfirm"
+                                       placeholder="Confirm password"></ion-input>
+                            <div *ngIf="registerForm.dirty && ( !registerForm.controls.username.valid)">
+                                <p>Passwords not match</p>
+                            </div>
+                            <div *ngIf="registerForm.controls.passwordConfirm.valid && !registerForm.controls.passwordConfirm.pristine">
+                                <ion-icon name="checkmark" color="success" size="md"></ion-icon>
+                            </div>
+
+                        </ion-item>
+                    </div>
+
+                    <div class="ion-padding">
+                        <ion-button [disabled]="!registerForm.valid" size="large" type="submit" expand="block">
+                            Register
+                        </ion-button>
+                    </div>
+                    <div class="ion-padding ion-text-center">
+                        <ion-button (click)="gotToLogin()" fill="outline" color="secondary" expand="block">
+                            Already have an account? Login
+                        </ion-button>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

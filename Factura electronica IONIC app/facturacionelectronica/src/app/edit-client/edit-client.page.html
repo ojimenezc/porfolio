@@ -1,0 +1,205 @@
+<!--
+  ~ Copyright (c) 2019.  SOFTCORP-CR S.A. All Rights Reserved. Any partial or total reproduction of this file without authorization from the owner is prohibited.
+  -->
+
+<ion-header>
+    <ion-toolbar>
+        <ion-title> {{'EDIT_CLIENT' | translate }}</ion-title>
+        <ion-buttons slot="start">
+            <ion-back-button text="{{'BACK_BUTTON'|translate}}"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <p *ngIf="this.error">
+        {{'NEW_CLIENT_ERROR'|translate}}
+    </p>
+    <form [formGroup]="editClientFormGroup" (ngSubmit)="save()">
+        <ion-grid>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'IDENTIFICATION_TYPE'|translate}}</ion-label>
+                        <ion-select
+                                [selectedText]="this.indentificationTypeName"
+                                value="{{this.editClientFormGroup.value.identificationType}}"
+                                formControlName="identificationType"
+                                okText="{{'SELECT_OK_TEXT'|translate}}"
+                                cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                            <ion-select-option
+                                    *ngFor="let item of identificationTypes"
+                                    value="{{item.code}}">{{item.name}}</ion-select-option>
+                        </ion-select>
+                        <div *ngIf="editClientFormGroup.controls['identificationType'].errors && !editClientFormGroup.controls['identificationType'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['identificationType'].errors.required"
+                                      color="danger">
+                                {{'IDENTIFICATION_TYPE_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'IDENTIFICATION_NUMBER'|translate}}</ion-label>
+                        <ion-input formControlName="identificationNumber" type="number" placeholder=""></ion-input>
+                        <div *ngIf="editClientFormGroup.controls['identificationNumber'].errors && !editClientFormGroup.controls['identificationNumber'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['identificationNumber'].errors.required"
+                                      color="danger">
+                                {{'IDENTIFICATION_NUMBER_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CLIENT_NAME'|translate}}</ion-label>
+                        <ion-input formControlName="clientName" type="text" placeholder=""></ion-input>
+                        <div *ngIf="editClientFormGroup.controls['clientName'].errors && !editClientFormGroup.controls['clientName'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['clientName'].errors.required"
+                                      color="danger">
+                                {{'CLIENT_NAME_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'CONTACT_PHONE'|translate}}</ion-label>
+                        <ion-input formControlName="contactPhone" type="number" placeholder=""></ion-input>
+                        <div *ngIf="editClientFormGroup.controls['contactPhone'].errors && !editClientFormGroup.controls['contactPhone'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['contactPhone'].errors.required"
+                                      color="danger">
+                                {{'CONTACT_PHONE_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'EMAIL'|translate}}</ion-label>
+                        <ion-input formControlName="contactEmail" type="email" placeholder=""></ion-input>
+                        <div *ngIf="editClientFormGroup.controls['contactEmail'].errors && !editClientFormGroup.controls['contactEmail'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['contactEmail'].errors.pattern"
+                                      color="danger">
+                                {{'VALID_EMAIL'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'PROVINCE'|translate}}</ion-label>
+                        <ion-select
+                                [selectedText]="this.provinceName"
+                                value="{{this.editClientFormGroup.value.province}}"
+                                (ionChange)="loadCounties()"
+                                formControlName="province" okText="{{'SELECT_OK_TEXT'|translate}}"
+                                cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                            <ion-select-option *ngFor="let item of provinces"
+                                               value="{{item.code}}">{{item.name}}</ion-select-option>
+                        </ion-select>
+                        <div *ngIf="editClientFormGroup.controls['province'].errors && !editClientFormGroup.controls['province'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['province'].errors.pattern"
+                                      color="danger">
+                                {{'PROVINCE_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'COUNTY'|translate}}</ion-label>
+                        <ion-select
+                                [selectedText]="this.countyName"
+                                value="{{this.editClientFormGroup.value.county}}"
+                                (ionChange)="loadDistricts()"
+                                formControlName="county" okText="{{'SELECT_OK_TEXT'|translate}}"
+                                cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                            <ion-select-option *ngFor="let item of counties"
+                                               value="{{item.code}}">{{item.name}}</ion-select-option>
+                        </ion-select>
+                        <div *ngIf="editClientFormGroup.controls['county'].errors && !editClientFormGroup.controls['county'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['county'].errors.pattern"
+                                      color="danger">
+                                {{'COUNTY_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'DISTRICT'|translate}}</ion-label>
+                        <ion-select
+                                [selectedText]="this.districtName"
+                                value="{{this.editClientFormGroup.value.district}}"
+                                formControlName="district" okText="{{'SELECT_OK_TEXT'|translate}}"
+                                cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                            <ion-select-option *ngFor="let item of districts; let i = index " value="{{item.code}}"
+                                               selected="i === 0">{{item.name}}</ion-select-option>
+
+                        </ion-select>
+                        <div *ngIf="editClientFormGroup.controls['district'].errors && !editClientFormGroup.controls['district'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['district'].errors.pattern"
+                                      color="danger">
+                                {{'DISTRICT_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">{{'ADDRESS'|translate}}</ion-label>
+                        <ion-textarea formControlName="otherSigns"></ion-textarea>
+                        <div *ngIf="editClientFormGroup.controls['otherSigns'].errors && !editClientFormGroup.controls['otherSigns'].pristine"
+                             class="error-msg">
+                            <ion-text [hidden]="!editClientFormGroup.controls['otherSigns'].errors.pattern"
+                                      color="danger">
+                                {{'ADDRESS_REQUIRED'|translate}}
+                            </ion-text>
+                        </div>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <div class="ion-padding">
+                        <ion-button [disabled]="!editClientFormGroup.valid" fill="outline" type="submit" expand="block">
+                            {{'BTN_SAVE_CLIENT'|translate}}
+                        </ion-button>
+                    </div>
+                </ion-col>
+            </ion-row>
+
+
+        </ion-grid>
+    </form>
+</ion-content>

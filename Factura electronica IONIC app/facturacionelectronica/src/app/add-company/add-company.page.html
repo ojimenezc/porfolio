@@ -1,0 +1,226 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'COMPANY_SETTINGS_TITLE'|translate}}</ion-title>
+    <ion-buttons>
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <form [formGroup]="companyForm" >
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-item-group>
+              <ion-item>
+                <ion-label position="stacked">{{'COMPANY_NAME_FIELD'|translate}}</ion-label>
+                <ion-input formControlName="companyName"
+                           type="text" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['companyName'].errors && !companyForm.controls['companyName'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['companyName'].errors.required"
+                            color="danger">
+                    {{'COMPANY_NAME_FIELD_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'BUSINESS_NAME_FIELD'|translate}}</ion-label>
+                <ion-input formControlName="businessName"
+                           type="text" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['businessName'].errors && !companyForm.controls['businessName'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['businessName'].errors.required"
+                            color="danger">
+                    {{'BUSINESS_NAME_FIELD_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'IDENTIFICATION_TYPE'|translate}}</ion-label>
+                <ion-select formControlName="identificationType"
+                            okText="{{'SELECT_OK_TEXT'|translate}}"
+                            cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                  <ion-select-option *ngFor="let item of identificationTypes"
+                                     value="{{item.code}}">{{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="companyForm.controls['identificationType'].errors && !companyForm.controls['identificationType'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['identificationType'].errors.required"
+                            color="danger">
+                    {{'IDENTIFICATION_TYPE_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'IDENTIFICATION_NUMBER'|translate}}</ion-label>
+                <ion-input
+                        formControlName="identificationNumber" type="number"
+                        placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['identificationNumber'].errors && !companyForm.controls['identificationNumber'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['identificationNumber'].errors.required"
+                            color="danger">
+                    {{'IDENTIFICATION_NUMBER_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'CONTACT_PHONE'|translate}}</ion-label>
+                <ion-input formControlName="contactPhone"
+                           type="number" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['contactPhone'].errors && !companyForm.controls['contactPhone'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['contactPhone'].errors.required"
+                            color="danger">
+                    {{'CONTACT_PHONE_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'EMAIL'|translate}}</ion-label>
+                <ion-input formControlName="contactEmail"
+                           type="email" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['contactEmail'].errors && !companyForm.controls['contactEmail'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['contactEmail'].errors.pattern"
+                            color="danger">
+                    {{'VALID_EMAIL'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'PROVINCE'|translate}}</ion-label>
+                <ion-select (ionChange)="loadCounties()" formControlName="provinceId" okText="{{'SELECT_OK_TEXT'|translate}}"
+                            cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                  <ion-select-option *ngFor="let item of provinces"
+                                     value="{{item.code}}">{{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="companyForm.controls['provinceId'].errors && !companyForm.controls['provinceId'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['provinceId'].errors.pattern"
+                            color="danger">
+                    {{'PROVINCE_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'COUNTY'|translate}}</ion-label>
+                <ion-select (ionChange)="loadDistricts()" formControlName="countyId" okText="{{'SELECT_OK_TEXT'|translate}}"
+                            cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                  <ion-select-option *ngFor="let item of counties"
+                                     value="{{item.code}}">{{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="companyForm.controls['countyId'].errors && !companyForm.controls['countyId'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['countyId'].errors.pattern"
+                            color="danger">
+                    {{'COUNTY_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'DISTRICT'|translate}}</ion-label>
+                <ion-select formControlName="districtId" okText="{{'SELECT_OK_TEXT'|translate}}"
+                            cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                  <ion-select-option *ngFor="let item of districts"
+                                     value="{{item.code}}">{{item.name}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="companyForm.controls['districtId'].errors && !companyForm.controls['districtId'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['districtId'].errors.pattern"
+                            color="danger">
+                    {{'DISTRICT_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'POSTAL_CODE_FIELD'|translate}}</ion-label>
+                <ion-input formControlName="postalCode"
+                           type="number" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['postalCode'].errors && !companyForm.controls['postalCode'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['postalCode'].errors.required"
+                            color="danger">
+                    {{'POSTAL_CODE_FIELD_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+
+              <ion-item>
+                <ion-label position="stacked">{{'CURRENCY'|translate}}</ion-label>
+                <ion-select formControlName="defaultCurrency" okText="{{'SELECT_OK_TEXT'|translate}}"
+                            cancelText="{{'SELECT_CANCEL_TEXT'|translate}}">
+                  <ion-select-option *ngFor="let item of currencies"
+                                     value="{{item.id}}">{{item.code}}</ion-select-option>
+                </ion-select>
+                <div *ngIf="companyForm.controls['defaultCurrency'].errors && !companyForm.controls['defaultCurrency'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['defaultCurrency'].errors.pattern"
+                            color="danger">
+                    {{'CURRENCY_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'ATV_USERNAME'|translate}}</ion-label>
+                <ion-input formControlName="atvUsername"
+                           type="text" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['atvUsername'].errors && !companyForm.controls['atvUsername'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['atvUsername'].errors.required"
+                            color="danger">
+                    {{'ATV_USERNAME_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'ATV_PASSWORD'|translate}}</ion-label>
+                <ion-input formControlName="atvPassword"
+                           type="text" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['atvPassword'].errors && !companyForm.controls['atvPassword'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['atvPassword'].errors.required"
+                            color="danger">
+                    {{'ATV_PASSWORD_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">{{'CERT_PIN'|translate}}</ion-label>
+                <ion-input formControlName="certificatePin"
+                           type="text" placeholder=""></ion-input>
+                <div *ngIf="companyForm.controls['certificatePin'].errors && !companyForm.controls['certificatePin'].pristine"
+                     class="error-msg">
+                  <ion-text [hidden]="!companyForm.controls['certificatePin'].errors.required"
+                            color="danger">
+                    {{'CERT_PIN_REQUIRED'|translate}}
+                  </ion-text>
+                </div>
+              </ion-item>
+              <ion-item>
+                <!--<ion-label position="stacked" padding-bottom>{{this.certificateFileName}}</ion-label>
+                <ion-button size="small" fill="outline" type="button" color="secondary" (click)="chooseCert()" expand="block">
+                  {{'CHOOSE_CERT'|translate}}
+                </ion-button>
+                <ion-input hidden formControlName="atvCertificate" value="{{this.base64Cert}}"></ion-input>-->
+                <ion-input hidden formControlName="atvCertificate" value="{{this.base64Cert}}"></ion-input>
+                <ion-input type="file" accept="*" (change)="changeListener($event)"></ion-input>
+              </ion-item>
+              <div class="ion-padding">
+                <ion-button [disabled]="!companyForm.valid" fill="outline" (click)="save()" expand="block">
+                  {{'BTN_SAVE'|translate}}
+                </ion-button>
+              </div>
+
+            </ion-item-group>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </form>
+
+  </div>
+</ion-content>
