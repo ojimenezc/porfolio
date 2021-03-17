@@ -1,4 +1,4 @@
-package correct_implementation;
+package single_responsibility;
 /**
  * This class is for demonstration purposes. No getters are created for simplicity.
  * 

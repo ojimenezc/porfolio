@@ -1,4 +1,4 @@
-package correct_implementation;
+package single_responsibility;
 
 /**
  * This class is right since its only responsibility is printing invoices, nothing else.

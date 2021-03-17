@@ -1,18 +1,14 @@
-package com.dry.correct.web;
+public class Page2 {
 
-import com.dry.correct.utilities.UsersValidation;
-
-public class Page1 {
-
-    public Page1(){
+    public Page2(){
         this.loadPage();
     }
-    
+
     public void loadPage() {
         UsersValidation userValidation = new UsersValidation();
         if(userValidation.isUserValid("123")){
-            System.out.println("Page 1 loaded");
             //Do some code if user is valid
+            System.out.println("Page 2 loaded");
         }else{
             //Do something else if user is invalid
         }

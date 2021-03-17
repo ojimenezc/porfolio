@@ -1,5 +1,3 @@
-package com.dry.correct.utilities;
-
 public class UsersValidation {
     
     public boolean isUserValid(String userId){
